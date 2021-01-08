@@ -1,3 +1,4 @@
+%define build_tar_ball 0
 %if ! %{defined _fillupdir}
   %define _fillupdir %{_localstatedir}/adm/fillup-templates
 %endif
@@ -6,9 +7,15 @@ Name:           mDNS
 Version:        0.1
 Release:        0
 Summary:        mDNS cname service
-License:        Apache2.0
+License:        Apache-2.0
 URL:            https://github.com/kalmarzs/mDNS
-Source0:        %{name}-%{version}.tar.xz
+
+%if %{build_tar_ball}
+Source0:        %{name}-%version.tar.xz
+%else
+Source0:        _service
+%endif
+
 BuildRequires:  systemd-rpm-macros
 Requires:       python3
 Requires(post): %fillup_prereq
@@ -19,7 +26,11 @@ BuildArch:      noarch
 mDNS cname service
 
 %prep
-%autosetup -n %{name}-%{version}
+%if %{build_tar_ball}
+ %setup -q
+%else
+ %setup -q -n %_sourcedir/%name-%version -T -D
+%endif
 
 %build
 %py3_build
