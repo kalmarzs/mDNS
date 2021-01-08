@@ -28,8 +28,6 @@ mDNS cname service
 
 %install
 %py3_install
-%{_bindir}/install -c -D -m 600 %{buildroot}%{_sysconfdir}/sysconfig/mDNS %{buildroot}%{_fillupdir}/sysconfig.%{name}
-rm %{buildroot}%{_sysconfdir}/sysconfig/mDNS
 
 %pre
 %service_add_pre mDNS.service
