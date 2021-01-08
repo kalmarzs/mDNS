@@ -3,8 +3,6 @@
 
 import sys
 import os
-import logging
-import time
 import signal
 import configparser
 from mpublisher import AvahiPublisher
@@ -24,15 +22,16 @@ logfile = config['general']['logfile']
 loglevel = config['general']['loglevel']
 
 # Initiate logging
-logging.basicConfig(filename='/var/log/mDNS.log', level=logging.INFO)
-print("Logging started")
+logging.basicConfig(filename=logfile, level=logging.INFO)
+
+
 cnames = ['gooseberry.local', 'greenberry.local', 'someberry.local', 'fooberry.local']
 
 def handle_signals(publisher, signum, frame):
     """Unpublish all mDNS records and exit cleanly."""
 
     signame = next(v for v, k in signal.__dict__.items() if k == signum)
-    log.info("Exiting on %s...", signame)
+    logging.info("Exiting on %s...", signame)
     publisher.__del__()
 
     # Avahi needs time to forget us...
