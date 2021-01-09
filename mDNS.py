@@ -26,16 +26,16 @@ loglevel = config['general']['loglevel']
 log = logging.getLogger("mDNS Publisher")
 
 
-def cnames:
-    if config['backend']['backend'] = 'conf'
-    cnames = ['gooseberry.local', 'greenberry.local', 'someberry.local', 'fooberry.local']
-    return cnames
+def cnames():
+    if config['backend']['backend'] == 'conf':
+        cnames = ['gooseberry.local', 'greenberry.local', 'someberry.local', 'fooberry.local']
+        return cnames
     #else:
     # DB query
     #reutrn results
 
 def main():
-    logging.basicConfig(filename=logfile, level=loglevel)
+    logging.basicConfig(filename=logfile, logging.DEBUG)
     logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
     log.info("mDNS publisher starting...")
     
@@ -49,6 +49,8 @@ def main():
             signal.signal(signal.SIGTERM, functools.partial(handle_signals, publisher))
             signal.signal(signal.SIGINT, functools.partial(handle_signals, publisher))
             signal.signal(signal.SIGQUIT, functools.partial(handle_signals, publisher))
+
+            cnames = cnames()
 
             for cname in cnames:
                 status = publisher.publish_cname(cname, force=False)
